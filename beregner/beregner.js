@@ -95,7 +95,7 @@
     next.textContent = type === 'form' ? 'Vis mit tal' : 'Næste';
     next.disabled = !valid(i);
     $('trust').hidden = type !== 'form';
-    if (type === 'form') fill('p', estimate());
+    if (type === 'form') { try { fill('p', estimate()); } catch (err) { console.warn('beregner: preview kept placeholder', err); } }
     if (i > 0) {
       var h = s.querySelector('h2'); h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true });
     }
