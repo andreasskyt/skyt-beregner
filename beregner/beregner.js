@@ -11,6 +11,8 @@
   var HOURS_DAY = { 'under1': 0.5, '1-2': 1.5, '2-4': 3, 'over4': 5 };
   var PROMISE_WEEK = 2;                 // hours per person per week we promise after the workshop
   var WEEKS = 46, WORKDAYS_PER_MONTH = 46 * 5 / 12, HOURS_PER_WORKDAY = 7.4;
+  var HOURLY_COST = 350;               // our estimate of total salary cost per hour (not asked: it varies too much per person)
+  var FTE_HOURS_MONTH = 37 * WEEKS / 12; // hours a full-time employee works per month
 
   /* first-touch attribution, same key as booking.js */
   var TRACKED = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'ad_id', 'adset_id', 'campaign_id'];
@@ -53,6 +55,8 @@
       repetitive_month: staff * day * WORKDAYS_PER_MONTH,
       back_month: staff * perWeek * WEEKS / 12,
       workdays_year: staff * perWeek * WEEKS / HOURS_PER_WORKDAY,
+      kr_year: staff * perWeek * WEEKS * HOURLY_COST,
+      fte: staff * perWeek * WEEKS / 12 / FTE_HOURS_MONTH,
       midpoints: { staff: staff, hours_day: day, per_week: perWeek }
     };
   }
@@ -60,7 +64,7 @@
   function hoursText(x) { return 'ca. ' + num(roundTo(x, 5)) + ' timer'; }
   function daysText(x) { return num(Math.max(1, Math.round(x))); }
   function waitLine(e) {
-    return 'Det svarer til ' + daysText(e.workdays_year) + ' arbejdsdage om året';
+    return 'Det svarer til ca. ' + num(roundTo(e.kr_year, 10000)) + ' kr. i løn om året';
   }
 
   /* fills the teaser (p) and the result (r) with the same layout */
@@ -70,7 +74,7 @@
     $(px + '-day').textContent = waitLine(e);
     $(px + '-n1').textContent = hoursText(e.repetitive_month);
     $(px + '-n1-l').textContent = 'om måneden på gentagne opgaver';
-    $(px + '-n2').textContent = daysText(e.workdays_year);
+    $(px + '-n2').textContent = num(Math.max(0.1, Math.round(e.fte * 10) / 10));
   }
 
   function valid(i) {
@@ -173,13 +177,17 @@
     var first = c.navn.split(/\s+/)[0], m = est.midpoints;
     $('r-title').textContent = first + ', her er tallet for ' + c.firma + '.';
     fill('r', est);
-    $('r-ai').hidden = answers.ai !== 'licenser';
+    var hire = $('r-hire'), fteTxt = num(Math.max(0.1, Math.round(est.fte * 10) / 10));
+    if (answers.ansaet === 'ja' || answers.ansaet === 'overvejer') {
+      hire.textContent = (answers.ansaet === 'ja' ? 'I søger allerede folk. ' : 'I overvejer at ansætte. ') + 'Den tid, I kan få tilbage, svarer til ca. ' + fteTxt + ' fuldtidsansatte. Måske skal jeres folk have timerne tilbage, før I ansætter.';
+      hire.hidden = false;
+    } else { hire.hidden = true; }
     $('r-note').textContent =
       'Tallet bygger på dine svar, og vi regner med midten af hvert interval. ' +
       'Gentagne opgaver: ' + num(m.staff) + ' personer gange ' + num(m.hours_day) + (m.hours_day === 1 ? ' time' : ' timer') + ' om dagen pr. medarbejder gange ca. ' + num(Math.round(WORKDAYS_PER_MONTH * 10) / 10) + ' arbejdsdage om måneden er ca. ' + num(Math.round(est.repetitive_month)) + ' timer. ' +
       'Tid tilbage: ' + num(m.staff) + ' personer gange ' + num(m.per_week) + ' timer om ugen gange ' + WEEKS + ' arbejdsuger delt med 12 er ca. ' + num(Math.round(est.back_month)) + ' timer om måneden. ' +
       'De 2 timer om ugen pr. person er det mindste, vi lover efter workshoppen' + (m.per_week < PROMISE_WEEK ? ', men vi regner aldrig med mere end den tid, I selv bruger på gentagne opgaver' : '') + '. ' +
-      'Arbejdsdage: de timer om året delt med 7,4 timer pr. arbejdsdag er ca. ' + daysText(est.workdays_year) + ' dage. Et skøn, ikke en garanti.';
+      'Løn: vi regner med ' + HOURLY_COST + ' kr. i timen i samlede lønomkostninger, det er vores eget skøn, så ca. ' + num(roundTo(est.kr_year, 10000)) + ' kr. om året. Fuldtidsansatte: timerne om måneden delt med ca. ' + num(Math.round(FTE_HOURS_MONTH)) + ' timer, som en fuldtidsansat arbejder om måneden. Et skøn, ikke en garanti.';
 
     form.style.display = 'none';
     $('intro').style.display = 'none';
