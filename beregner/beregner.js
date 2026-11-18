@@ -98,7 +98,6 @@
     if (type === 'form') fill('p', estimate());
     if (i > 0) {
       var h = s.querySelector('h2'); h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true });
-      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
