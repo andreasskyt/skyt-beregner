@@ -152,6 +152,13 @@
   .booking__head h3 { margin: 0; font-size: 1.05rem; line-height: 1.3; }
   .booking__head p { font-size: 0.88rem; color: var(--ink-soft); }
   .cal { min-height: 30rem; }
+  @media (min-width: 701px) {
+    .result.is-active, .booking { grid-template-columns: minmax(0, 1fr); }
+    .booking .cal { width: min(1040px, calc(100vw - 4rem)); margin-left: calc(50% - min(520px, 50vw - 2rem)); }
+  }
+  @media (max-width: 700px) {
+    .booking .cal { min-height: 26rem; }
+  }
   .booking__fallback { font-size: 0.85rem; color: var(--ink-soft); }
   .booking__fallback a { color: var(--green); }
   details.how { font-size: 0.85rem; color: var(--ink-soft); }
