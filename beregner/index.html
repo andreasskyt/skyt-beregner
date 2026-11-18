@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Se hvor mange penge og tid går tabt hver dag · SKYT SYSTEMS</title>
+<title>Hvor meget tid og kapital spilder din virksomhed på manuelt arbejde? · SKYT SYSTEMS</title>
 <meta name="description" content="Svar på 3 spørgsmål og se, hvor mange timer jeres team får tilbage, når alle bruger AI på deres egne opgaver. Tager 1 minut.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#f6f4ef">
@@ -39,6 +39,7 @@
   img { display: block; max-width: 100%; }
   h1, h2 { font-weight: 700; letter-spacing: -0.035em; line-height: 1.08; margin: 0; text-wrap: balance; color: var(--btn); }
   h1 { font-size: clamp(1.9rem, 4.2vw, 3.2rem); }
+  .h1-lines { text-wrap: wrap; }   /* lines set by hand like /book: widest on top */
   h2 { font-size: clamp(1.45rem, 3vw, 2.1rem); }
   p { margin: 0; }
   .em { font-style: italic; font-weight: inherit; color: var(--sand); text-shadow: 0 1px 0 hsl(110 24% 15% / 0.85), 0 2px 3px hsl(110 24% 15% / 0.55); }
@@ -199,6 +200,7 @@
     main { padding: 0.4rem 0 0; }
     .intro { margin-bottom: 1rem; gap: 0.5rem; }
     .intro h1 { font-size: clamp(1.45rem, 7vw, 1.85rem); }
+    .intro h1.h1-lines { font-size: clamp(1.4rem, 7.4vw, 1.85rem); }   /* "Hvor meget tid og kapital" on one line down to 320px */
     .intro .lead { display: none; }
     .kicker { font-size: 0.68rem; letter-spacing: 0.07em; }
     .card { padding: 1.1rem 1rem 1rem; border-radius: 16px; }
@@ -254,7 +256,7 @@ fbq('track', 'PageView');
   <div class="col">
     <div class="intro" id="intro">
       <span class="kicker">For virksomheder med mellem 10-50 ansatte</span>
-      <h1>Se hvor mange penge og tid <span class="em" style="white-space:nowrap">går tabt</span> hver dag.</h1>
+      <h1 class="h1-lines">Hvor meget tid og kapital<br> <span class="em">spilder din virksomhed</span><br> på manuelt arbejde?</h1>
       <p class="lead">Se hvor mange timer jeres team får tilbage, når alle bruger AI på deres egne opgaver.</p>
     </div>
 
