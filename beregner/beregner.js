@@ -108,7 +108,7 @@
     $('count').textContent = type === 'form' ? 'Sidste trin' : (i + 1) + ' af ' + QUESTIONS;
     back.hidden = i === 0;
     next.hidden = type === 'single';
-    next.textContent = type === 'form' ? 'Vis mit tal' : 'Næste';
+    next.textContent = type === 'form' ? 'Afslør tallet' : 'Næste';
     next.disabled = !valid(i);
     $('trust').hidden = type !== 'form';
     if (type === 'form') { try { fill('p', estimate()); } catch (err) { console.warn('beregner: preview kept placeholder', err); } }

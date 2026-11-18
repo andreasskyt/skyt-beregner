@@ -117,7 +117,7 @@
   /* teaser on the form step: the day line is open, the team total is locked */
   .peek { display: grid; gap: 1rem; }
   .peek__v { filter: blur(9px); user-select: none; transition: filter 0.6s ease; }
-  .peek__lock { margin: 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; font-size: 0.88rem; font-weight: 600; color: var(--ink); transition: opacity 0.4s ease; }
+  .peek__lock { margin: 0.2rem auto; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; font-size: 0.82rem; font-weight: 600; color: var(--green-ink); background: hsl(0 0% 100% / 0.1); border-radius: 999px; padding: 0.3rem 0.8rem; transition: opacity 0.4s ease; }
   .peek.is-open .peek__v { filter: none; }
   .peek.is-open .peek__lock { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { .peek__v, .peek__lock { transition: none; } }
@@ -290,18 +290,16 @@ fbq('track', 'PageView');
       <section class="step" data-key="kontakt" data-type="form">
         <h2 id="q4" class="center">Hvem skal vi sende analysen til?</h2>
         <div class="peek" id="peek">
-          <div class="big"><span class="n peek__v" aria-hidden="true" id="p-big">ca. 115 timer</span><span class="u" id="p-big-l">om måneden I får tilbage, når hver person sparer mindst 2 timer om ugen</span><span class="u day peek__v" aria-hidden="true" id="p-day">Det svarer til ca. 480.000 kr. i løn om året</span></div>
+          <div class="big"><span class="n peek__v" aria-hidden="true" id="p-big">ca. 115 timer</span><span class="u" id="p-big-l">om måneden I får tilbage, når hver person sparer mindst 2 timer om ugen</span><span class="peek__lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Udfyld herunder for at se jeres tal</span><span class="u day peek__v" aria-hidden="true" id="p-day">Det svarer til ca. 480.000 kr. i løn om året</span></div>
           <ul class="nums">
             <li><b class="peek__v" aria-hidden="true" id="p-n1">ca. 430 timer</b><span id="p-n1-l">om måneden på gentagne opgaver</span></li>
             <li><b class="peek__v" aria-hidden="true" id="p-n2">0,8</b><span>fuldtidsansatte, det svarer til</span></li>
           </ul>
-          <p class="peek__lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Udfyld herunder for at se jeres tal</p>
         </div>
-        <p class="hint center" style="margin-top:0">Du ser jeres tal med det samme.</p>
         <div class="fields">
-          <label>Mail<input name="mail" type="email" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" enterkeyhint="next" required aria-describedby="e-mail"><span class="err" id="e-mail" role="alert" data-for="mail"></span></label>
-          <label>Telefon<input name="telefon" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="12 34 56 78…" required aria-describedby="e-telefon"><span class="err" id="e-telefon" role="alert" data-for="telefon"></span></label>
-          <label>Navn<input name="navn" autocomplete="name" autocapitalize="words" enterkeyhint="go" required aria-describedby="e-navn"><span class="err" id="e-navn" role="alert" data-for="navn"></span></label>
+          <label>Navn<input name="navn" autocomplete="name" autocapitalize="words" enterkeyhint="next" placeholder="Skriv dit fulde navn" required aria-describedby="e-navn"><span class="err" id="e-navn" role="alert" data-for="navn"></span></label>
+          <label>Mail<input name="mail" type="email" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" enterkeyhint="next" placeholder="Skriv din arbejdsmail" required aria-describedby="e-mail"><span class="err" id="e-mail" role="alert" data-for="mail"></span></label>
+          <label>Telefon<input name="telefon" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="go" placeholder="12 34 56 78" required aria-describedby="e-telefon"><span class="err" id="e-telefon" role="alert" data-for="telefon"></span></label>
         </div>
       </section>
 
@@ -391,6 +389,6 @@ fbq('track', 'PageView');
   <script>document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261119c" defer></script>
+<script src="/beregner/beregner.js?v=20261119d" defer></script>
 </body>
 </html>
