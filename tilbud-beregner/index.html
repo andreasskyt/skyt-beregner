@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hvor meget omsætning siger I nej til? · SKYT SYSTEMS</title>
+<meta name="description" content="Svar på 6 spørgsmål og se, hvor meget omsætning I siger nej til, fordi I ikke har tid til at regne tilbud. Tager 2 minutter.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f4ef">
+<link rel="icon" href="/public/favicons/favicon.ico" sizes="any">
+<link rel="icon" href="/public/favicons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/public/favicons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400..800;1,14..32,400..700&display=swap">
+<link rel="preconnect" href="https://app.cal.com">
+<style>
+  /* tokens: same as /book */
+  :root {
+    --canvas: hsl(40 22% 96%);
+    --surface: hsl(40 30% 99%);
+    --ink: hsl(100 11% 8%);
+    --ink-soft: hsl(100 6% 34%);
+    --ink-subtle: hsl(100 5% 42%);
+    --green: hsl(110 14% 20%);
+    --btn: hsl(110 24% 15%); --btn-hover: hsl(110 26% 11%);
+    --green-ink: hsl(40 22% 96%);
+    --sand: hsl(41 26% 64%);
+    --line: hsl(110 15% 25% / 0.16);
+    --err: hsl(5 60% 42%);
+    --font: 'Inter', system-ui, sans-serif;
+    --glow: 0 10px 28px -8px hsl(110 24% 15% / 0.5), 0 0 32px -6px hsl(110 30% 40% / 0.35);
+    --glow-hover: 0 14px 34px -8px hsl(110 24% 15% / 0.6), 0 0 44px -4px hsl(110 30% 40% / 0.5);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--canvas); color: var(--ink); font-family: var(--font); font-size: 1.0625rem; line-height: 1.6; overflow-x: clip; }
+  img { display: block; max-width: 100%; }
+  h1, h2 { font-weight: 700; letter-spacing: -0.035em; line-height: 1.08; margin: 0; text-wrap: balance; color: var(--btn); }
+  h1 { font-size: clamp(1.9rem, 4.2vw, 3.2rem); }
+  h2 { font-size: clamp(1.45rem, 3vw, 2.1rem); }
+  p { margin: 0; }
+  .em { font-style: italic; font-weight: inherit; color: var(--sand); text-shadow: 0 1px 0 hsl(110 24% 15% / 0.85), 0 2px 3px hsl(110 24% 15% / 0.55); }
+  .kicker { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--green); }
+  .col { max-width: 46rem; margin: 0 auto; padding: 0 2.5rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  button, .opt, .btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+
+  .bar .col { display: flex; align-items: center; height: 4.5rem; max-width: 1240px; }
+  .logo { display: inline-flex; align-items: baseline; gap: 0.4em; line-height: 1; font-size: 1.3rem; color: var(--btn); }
+  .logo .a { font-size: 1.35em; font-weight: 800; letter-spacing: -0.03em; }
+  .logo .b { font-size: 0.78em; font-weight: 600; letter-spacing: 0.3em; }
+
+  main { padding: 2rem 0 0; }
+  .intro { display: grid; justify-items: center; gap: 1rem; text-align: center; margin-bottom: 2rem; }
+  .intro .lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 36rem; text-wrap: balance; }
+
+  /* calculator card */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 2rem; box-shadow: 0 20px 50px -30px hsl(110 24% 15% / 0.35); scroll-margin-top: 0.75rem; }
+  .progress { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.4rem; font-size: 0.82rem; color: var(--ink-soft); }
+  .progress__bar { flex: 1; height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .progress__fill { height: 100%; width: 0; background: var(--btn); border-radius: 999px; transition: width 0.35s ease; }
+  .step { display: none; }
+  .step.is-active { display: grid; gap: 1.1rem; animation: in 0.3s ease; }
+  @keyframes in { from { opacity: 0; transform: translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) { .step.is-active, .result.is-active { animation: none; } .progress__fill { transition: none; } }
+  .step h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); color: var(--ink); letter-spacing: -0.025em; }
+  .step h2:focus { outline: none; }
+  .hint { font-size: 0.92rem; color: var(--ink-soft); margin-top: -0.5rem; }
+
+  .opts { display: grid; gap: 0.6rem; }
+  .opts--2 { grid-template-columns: 1fr 1fr; }
+  .opt { display: flex; align-items: center; gap: 0.75rem; width: 100%; min-height: 3.4rem; padding: 0.7rem 1rem; border: 1.5px solid var(--line); border-radius: 14px; background: var(--canvas); color: var(--ink); font: inherit; font-size: 1rem; font-weight: 500; line-height: 1.3; text-align: left; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .opt:hover { border-color: hsl(110 24% 15% / 0.45); }
+  .opt:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+  .opt[aria-checked="true"] { border-color: var(--btn); background: hsl(110 24% 15% / 0.06); }
+  .opt small { margin-left: auto; font-size: 0.82rem; font-weight: 500; color: var(--ink-subtle); white-space: nowrap; }
+  .opt .box { width: 1.2rem; height: 1.2rem; border: 1.5px solid hsl(110 24% 15% / 0.5); border-radius: 5px; flex: none; display: grid; place-items: center; }
+  .opt[role="checkbox"][aria-checked="true"] .box { background: var(--btn); border-color: var(--btn); }
+  .opt[role="checkbox"][aria-checked="true"] .box::after { content: ''; width: 0.35rem; height: 0.65rem; border: solid var(--green-ink); border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg); }
+  .other[hidden] { display: none; }
+
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 0.6rem; min-height: 2.75rem; }
+  .back { background: none; border: 0; min-height: 2.75rem; padding: 0.6rem 0.9rem 0.6rem 0; font: inherit; font-size: 0.95rem; color: var(--ink-soft); cursor: pointer; }
+  .back:hover { color: var(--ink); }
+  .back:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 6px; }
+  .back[hidden] { display: inline-block; visibility: hidden; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 3.4rem; padding: 0 1.8rem; border: 0; border-radius: 999px; background: var(--btn); color: var(--green-ink); font: inherit; font-weight: 600; font-size: 1.02rem; text-decoration: none; text-align: center; cursor: pointer; box-shadow: var(--glow); transition: background 0.2s, box-shadow 0.25s, transform 0.25s, opacity 0.2s; }
+  .btn:hover { background: var(--btn-hover); box-shadow: var(--glow-hover); transform: translateY(-1px); }
+  .btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn[hidden] { display: none; }
+  .btn.is-busy, .btn.is-busy:disabled { opacity: 0.85; cursor: progress; }
+  .btn.is-busy::before { content: ''; width: 1rem; height: 1rem; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .fields { display: grid; gap: 0.85rem; }
+  label { display: grid; gap: 0.3rem; font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+  .opt-tag { font-weight: 500; color: var(--ink-soft); }
+  .field-hint { font-size: 0.82rem; font-weight: 400; color: var(--ink-soft); }
+  input { width: 100%; min-height: 3.2rem; padding: 0 1rem; border: 1.5px solid var(--line); border-radius: 12px; background: var(--canvas); color: var(--ink); font: inherit; font-size: 1rem; font-weight: 400; }
+  input:focus { outline: none; border-color: var(--btn); }
+  input:focus-visible { outline: 2px solid var(--green); outline-offset: 1px; }
+  input[aria-invalid="true"] { border-color: var(--err); }
+  .err { font-size: 0.82rem; font-weight: 500; color: var(--err); }
+  .err:empty { display: none; }
+  .trust { display: grid; gap: 0.8rem; margin-top: 0.9rem; font-size: 0.85rem; color: var(--ink-soft); text-align: center; }
+  .trust[hidden] { display: none; }
+  .trust__said { display: flex; gap: 0.7rem; align-items: center; text-align: left; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+  .trust__said img { width: 2.6rem; height: 2.6rem; border-radius: 50%; object-fit: cover; object-position: 50% 12%; flex: none; }
+  .trust__said q { font-style: italic; color: var(--ink); font-weight: 500; quotes: '»' '«'; }
+  .trust__said span { display: block; font-size: 0.78rem; color: var(--ink-subtle); }
+
+  /* teaser on the form step: the day line is open, the team total is locked */
+  .peek { display: grid; gap: 1rem; }
+  .peek__v { filter: blur(9px); user-select: none; transition: filter 0.6s ease; }
+  .peek__lock { margin: 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; font-size: 0.88rem; font-weight: 600; color: var(--ink); transition: opacity 0.4s ease; }
+  .peek.is-open .peek__v { filter: none; }
+  .peek.is-open .peek__lock { opacity: 0; }
+  @media (prefers-reduced-motion: reduce) { .peek__v, .peek__lock { transition: none; } }
+
+  /* result */
+  .result { display: none; }
+  .result.is-active { display: grid; gap: 1.6rem; animation: in 0.4s ease; }
+  .result h2:focus { outline: none; }
+  .big { display: grid; gap: 0.4rem; text-align: center; padding: 1.6rem 1rem; border-radius: 16px; background: var(--btn); color: var(--green-ink); }
+  .big .n { font-size: clamp(2.4rem, 9vw, 3.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .big .u { font-size: 1rem; opacity: 0.85; }
+  .big .day { font-weight: 600; opacity: 1; color: var(--sand); }
+  .nums { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .nums li { padding: 1rem 1rem 1rem 0; font-size: 0.9rem; color: var(--ink-soft); line-height: 1.4; }
+  .nums li + li { border-left: 1px solid var(--line); padding-left: 1rem; }
+  .nums b { display: block; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; color: var(--btn); margin-bottom: 0.2rem; }
+  .cta { display: grid; gap: 0.5rem; justify-items: center; text-align: center; }
+  .cta .btn { width: 100%; max-width: 26rem; padding: 0 1rem; white-space: nowrap; }
+  .cta p { font-size: 0.88rem; color: var(--ink-soft); }
+  .top h3, .ai h3 { margin: 0 0 0.8rem; font-size: 1.1rem; letter-spacing: -0.015em; }
+  .top ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.7rem; counter-reset: t; }
+  .top li { counter-increment: t; display: grid; grid-template-columns: 2rem 1fr; gap: 0.7rem; padding: 1rem; border: 1px solid var(--line); border-radius: 14px; background: var(--canvas); }
+  .top li::before { content: counter(t); width: 2rem; height: 2rem; border-radius: 50%; background: var(--btn); color: var(--green-ink); display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; }
+  .top b { display: block; font-size: 1rem; }
+  .top p { font-size: 0.95rem; color: var(--ink-soft); }
+  .bridge { display: grid; gap: 0.6rem; padding: 1.2rem; border-radius: 14px; border: 1px solid var(--line); }
+  .bridge p { color: var(--ink-soft); }
+  .bridge .scarce { color: var(--ink); font-weight: 600; }
+  .ai__reply { margin-top: 0.7rem; font-size: 0.95rem; color: var(--ink); font-weight: 500; }
+  .ai__reply:empty { display: none; }
+  .booking { display: grid; gap: 1rem; scroll-margin-top: 0.75rem; }
+  .booking__head { display: flex; gap: 0.8rem; align-items: center; }
+  .booking__head img { width: 3rem; height: 3rem; border-radius: 50%; flex: none; }
+  .booking__head h3 { margin: 0; font-size: 1.05rem; line-height: 1.3; }
+  .booking__head p { font-size: 0.88rem; color: var(--ink-soft); }
+  .cal { min-height: 30rem; }
+  .booking__fallback { font-size: 0.85rem; color: var(--ink-soft); }
+  .booking__fallback a { color: var(--green); }
+  details.how { font-size: 0.85rem; color: var(--ink-soft); }
+  details.how summary { cursor: pointer; font-weight: 600; color: var(--ink); min-height: 2.75rem; display: flex; align-items: center; }
+  details.how p { line-height: 1.6; }
+
+  /* proof, reused from /book */
+  .count { margin-top: 3.5rem; padding: 2rem 0 1.8rem; border-top: 1px solid var(--line); text-align: center; font-size: 1.02rem; color: var(--ink-soft); }
+  .count p { padding: 0 1.25rem; }
+  .count b { font-size: 1.3rem; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; margin-right: 0.2em; }
+  .mq { margin-top: 1.2rem; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .mq__track { display: flex; width: max-content; animation: mq 60s linear infinite; }
+  .mq ul { display: flex; gap: 3rem; margin: 0; padding: 0 3rem 0 0; list-style: none; }
+  .mq li { white-space: nowrap; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--ink-subtle); }
+  @keyframes mq { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .mq__track { animation: none; } }
+  .case { padding: 4.5rem 0; border-top: 1px solid var(--line); }
+  .case .col { max-width: 1100px; display: grid; grid-template-columns: minmax(0, 24rem) minmax(0, 1fr); gap: 4rem; align-items: center; }
+  .case__text { display: grid; gap: 1.4rem; justify-items: start; }
+  .case__photo { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; }
+  .quote { font-style: italic; font-size: 1.25rem; font-weight: 500; line-height: 1.45; color: var(--ink); }
+  .quote q { quotes: '»' '«'; }
+  .body { color: var(--ink-soft); }
+  .stats { list-style: none; width: 100%; margin: 0.4rem 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stats li { padding: 1.3rem 1.1rem 1.3rem 0; font-size: 0.92rem; color: var(--ink-soft); line-height: 1.4; }
+  .stats li + li { border-left: 1px solid var(--line); padding-left: 1.1rem; }
+  .stats b { display: block; font-size: 1.8rem; font-weight: 800; letter-spacing: -0.035em; color: var(--btn); line-height: 1.1; margin-bottom: 0.35rem; white-space: nowrap; }
+  .who { font-size: 0.9rem; color: var(--ink-soft); }
+  .who b { color: var(--ink); font-weight: 600; }
+
+  footer { padding: 2.5rem 0 3rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--ink-soft); text-align: center; }
+
+  @media (max-width: 700px) {
+    body { font-size: 1rem; }
+    .col { padding: 0 1rem; }
+    .bar .col { height: 3.25rem; }
+    .logo { font-size: 1rem; }
+    main { padding: 0.4rem 0 0; }
+    .intro { margin-bottom: 1rem; gap: 0.5rem; }
+    .intro h1 { font-size: clamp(1.45rem, 7vw, 1.85rem); }
+    .intro .lead { display: none; }
+    .kicker { font-size: 0.68rem; letter-spacing: 0.07em; }
+    .card { padding: 1.1rem 1rem 1rem; border-radius: 16px; }
+    .progress { margin-bottom: 1rem; }
+    .step.is-active { gap: 0.9rem; }
+    .step h2 { font-size: 1.25rem; }
+    .opts--2 { grid-template-columns: 1fr; }
+    .opts--grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .opts--grid .opt { min-height: 3.25rem; padding: 0.55rem 0.75rem; font-size: 0.92rem; }
+    .opt { min-height: 3.1rem; }
+    .nav .btn { flex: 1; }
+    .nums { grid-template-columns: 1fr; }
+    .nums li, .nums li + li { padding: 0.8rem 0; border-left: 0; }
+    .nums li + li { border-top: 1px solid var(--line); }
+    .cal { min-height: 34rem; }
+    .count { margin-top: 2.5rem; }
+    .case { padding: 3rem 0; }
+    .case .col { grid-template-columns: 1fr; gap: 1.6rem; text-align: center; }
+    .case__text { justify-items: center; }
+    .case__photo { aspect-ratio: 5 / 4; object-position: 50% 20%; }
+    .quote { font-size: 1.08rem; }
+    .stats { grid-template-columns: 1fr; }
+    .stats li, .stats li + li { padding: 0.9rem 0; }
+    .stats li + li { border-left: 0; border-top: 1px solid var(--line); }
+    .stats b { font-size: 1.55rem; }
+  }
+</style>
+<!-- Meta Pixel (DK). Live domain only, so local previews don't send events into the ad account's data. -->
+<script>
+if (/(^|\.)skytsystems\.dk$/.test(location.hostname)) {
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2005125110186461');
+fbq('track', 'PageView');
+}
+</script>
+</head>
+<body>
+
+<header class="bar">
+  <div class="col">
+    <span class="logo" aria-label="SKYT SYSTEMS"><span class="a">SKYT</span><span class="b">SYSTEMS</span></span>
+  </div>
+</header>
+
+<main>
+  <div class="col">
+    <div class="intro" id="intro">
+      <span class="kicker">For virksomheder, der lever af tilbud og ordrer · 6 spørgsmål</span>
+      <h1>Hvor meget omsætning <span class="em">siger I nej til</span>, fordi I ikke har tid til at regne på den?</h1>
+      <p class="lead">Svar med et klik på 6 spørgsmål, og se hvad det koster jer, og hvor mange flere tilbud jeres folk kunne nå.</p>
+    </div>
+
+    <form class="card" id="calc" novalidate>
+      <div class="progress"><div class="progress__bar" role="progressbar" aria-label="Fremskridt" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" id="bar"><div class="progress__fill" id="fill"></div></div><span id="count">1 af 6</span></div>
+
+      <section class="step is-active" data-key="ansatte" data-type="single">
+        <h2 id="q0">Hvor mange er I?</h2>
+        <p class="hint">Tæl kun dem, der arbejder ved en computer.</p>
+        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q0">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under10">Under 10</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="10-20">10 til 20</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="21-50">21 til 50</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over50">Over 50</button>
+        </div>
+      </section>
+
+      <section class="step" data-key="tilbud" data-type="single">
+        <h2 id="q1">Hvor mange tilbud regner I på om måneden?</h2>
+        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q1">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under10">Under 10</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="10-30">10 til 30</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="30-75">30 til 75</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over75">Over 75</button>
+        </div>
+      </section>
+
+      <section class="step" data-key="timer" data-type="single">
+        <h2 id="q2">Hvor lang tid tager et tilbud i snit?</h2>
+        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q2">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under1">Under 1 time</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="1-3">1 til 3 timer</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="3-8">3 til 8 timer</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over8">Over 8 timer</button>
+        </div>
+      </section>
+
+      <section class="step" data-key="nej" data-type="single">
+        <h2 id="q3">Hvor mange opgaver eller udbud siger I nej til om måneden, fordi I ikke har tid?</h2>
+        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q3">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="0">Ingen</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="1-2">1 til 2</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="3-5">3 til 5</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over5">Over 5</button>
+        </div>
+      </section>
+
+      <section class="step" data-key="ordre" data-type="single">
+        <h2 id="q4">Hvad er en typisk ordre værd?</h2>
+        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q4">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under25">Under 25.000 kr.</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="25-100">25.000 til 100.000 kr.</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="100-500">100.000 til 500.000 kr.</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over500">Over 500.000 kr.</button>
+        </div>
+      </section>
+
+      <section class="step" data-key="hitrate" data-type="single">
+        <h2 id="q5">Hvor mange af jeres tilbud vinder I?</h2>
+        <div class="opts" role="radiogroup" aria-labelledby="q5">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under20">Under 20%</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="20-40">20 til 40%</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over40">Over 40%</button>
+        </div>
+      </section>
+
+      <section class="step" data-key="kontakt" data-type="form">
+        <h2 id="q6">Dit tal er regnet ud.</h2>
+        <div class="peek" id="peek">
+          <div class="big"><span class="n peek__v" aria-hidden="true" id="p-big">860.000 kr.</span><span class="u" id="p-big-l">i omsætning I siger nej til om året</span><span class="u day peek__v" aria-hidden="true" id="p-day">Det er ca. 4 opgaver om måneden, I ikke når at regne på</span></div>
+          <ul class="nums">
+            <li><b class="peek__v" aria-hidden="true" id="p-n1">ca. 40 timer</b><span id="p-n1-l">om måneden på tilbud</span></li>
+            <li><b class="peek__v" aria-hidden="true" id="p-n2">ca. 20</b><span>flere tilbud om måneden med de samme folk, hvis hvert tilbud tog halv tid</span></li>
+          </ul>
+          <p class="peek__lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Udfyld herunder for at se jeres tal</p>
+        </div>
+        <p class="hint" style="margin-top:0">Skriv hvor vi må sende det, så ser du det med det samme.</p>
+        <div class="fields">
+          <label>Navn<input name="navn" autocomplete="name" autocapitalize="words" enterkeyhint="next" required aria-describedby="e-navn"><span class="err" id="e-navn" role="alert" data-for="navn"></span></label>
+          <label>Firma<input name="firma" autocomplete="organization" autocapitalize="words" enterkeyhint="next" required aria-describedby="e-firma"><span class="err" id="e-firma" role="alert" data-for="firma"></span></label>
+          <label>Mail<input name="mail" type="email" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" enterkeyhint="next" required aria-describedby="e-mail"><span class="err" id="e-mail" role="alert" data-for="mail"></span></label>
+          <label>
+            <span>Telefon <span class="opt-tag">(valgfrit)</span></span>
+            <span class="field-hint" id="h-tel">Skriv dit nummer, hvis du vil have en gratis gennemgang af tallet.</span>
+            <input name="telefon" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="go" placeholder="12 34 56 78…" aria-describedby="h-tel e-telefon"><span class="err" id="e-telefon" role="alert" data-for="telefon"></span>
+          </label>
+        </div>
+      </section>
+
+      <div class="nav">
+        <button type="button" class="back" id="back" hidden>← Tilbage</button>
+        <button type="button" class="btn" id="next" hidden>Næste</button>
+      </div>
+      <div class="trust" id="trust" hidden>
+        <p>Ingen spam. Vi ringer kun, hvis du skriver dit nummer.</p>
+        <div class="trust__said">
+          <img src="/book/img/tjure.jpg" alt="" width="42" height="42" loading="lazy" decoding="async">
+          <div><q>Jeg er lidt skræmt over, hvor meget tid det sparer.</q><span>Tjure Lohse, direktør i Retainly</span></div>
+        </div>
+      </div>
+    </form>
+
+    <div class="card result" id="result">
+      <div>
+        <span class="kicker">Dit resultat</span>
+        <h2 id="r-title" tabindex="-1" style="margin-top:0.5rem"></h2>
+      </div>
+      <div class="big"><span class="n" id="r-big"></span><span class="u" id="r-big-l"></span><span class="u day" id="r-day"></span></div>
+      <ul class="nums">
+        <li><b id="r-n1"></b><span id="r-n1-l"></span></li>
+        <li><b id="r-n2"></b><span>flere tilbud om måneden med de samme folk, hvis hvert tilbud tog halv tid</span></li>
+      </ul>
+      <div class="cta">
+        <a class="btn" href="#book" id="to-book">Book en gratis gennemgang (15 min)</a>
+        <p>Vi gennemgår dit tal og ser på, hvor jeres tilbud kan gå hurtigere.</p>
+      </div>
+      <div class="top">
+        <h3>Her ville vi starte hos jer</h3>
+        <ol>
+          <li><div><b>AI læser forespørgslen</b><p>AI læser forespørgslen, udbuddet eller tegningen og trækker kravene ud.</p></div></li>
+          <li><div><b>AI laver første udkast</b><p>AI finder varenumre og priser i jeres egne lister og laver første udkast til tilbuddet.</p></div></li>
+          <li><div><b>Jeres folk tjekker og sender</b><p>Jeres folk tjekker, retter og sender. Et menneske har altid sidste ord.</p></div></li>
+        </ol>
+      </div>
+      <div class="bridge">
+        <p>Tallet er kun noget værd, hvis jeres folk faktisk regner tilbud hurtigere på mandag. Derfor kommer vi ud til jer én dag, og dagen efter bruger teamet AI på deres egne tilbud og ordrer. Målet er flere tilbud og flere kunder med de samme folk, ikke færre medarbejdere.</p>
+        <p class="scarce">Vi tager kun 15 virksomheder inden nytår. Fra januar til marts tager vi ingen workshops.</p>
+      </div>
+      <div class="ai">
+        <h3 id="q-ai">Bruger I AI i dag?</h3>
+        <div class="opts" role="radiogroup" aria-labelledby="q-ai" id="ai-opts">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="nej">Nej</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="selv">Nogle bruger ChatGPT selv</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="betaler">Vi betaler for ChatGPT eller Copilot</button>
+        </div>
+        <p class="ai__reply" id="ai-reply" aria-live="polite"></p>
+      </div>
+      <div class="booking" id="book">
+        <div class="booking__head">
+          <img src="/book/img/andreas.jpg" alt="Andreas Skyt" width="48" height="48" loading="lazy" decoding="async">
+          <div><h3>Book en gratis gennemgang</h3><p>15 minutter på telefonen. Vi ringer dig op.</p></div>
+        </div>
+        <div class="cal" id="cal"></div>
+        <p class="booking__fallback">Kan kalenderen ikke vises? <a href="https://cal.com/team/skyt-systems/intro-opkald">Book her i stedet</a>.</p>
+      </div>
+      <details class="how">
+        <summary>Sådan har vi regnet</summary>
+        <p id="r-note"></p>
+      </details>
+    </div>
+  </div>
+
+  <div class="count">
+    <p><b>130+</b> virksomheder hjulpet med AI, automatisering og datainfrastruktur.</p>
+    <div class="mq" aria-label="Udvalgte kunder"><div class="mq__track"><ul><li>License &amp; Scale</li><li>Scaper Team</li><li>Drivn Scaling</li><li>DenWay</li><li>Awakening Growth</li><li>Info Architect</li><li>Feed Studio</li><li>Solestory Scaling</li><li>RAdigitals</li><li>OVAOS</li><li>THEGYM</li><li>Malfas Marketing</li><li>Creaesthix</li><li>Frederik Pahuus</li><li>Cameron England</li><li>The Digital Coffee Shop</li><li>Tech-shoppen.dk</li><li>Regas Media</li><li>Retainly</li><li>The Marketing Bureau</li><li>Converzion</li><li>SwiftTap</li></ul><ul aria-hidden="true"><li>License &amp; Scale</li><li>Scaper Team</li><li>Drivn Scaling</li><li>DenWay</li><li>Awakening Growth</li><li>Info Architect</li><li>Feed Studio</li><li>Solestory Scaling</li><li>RAdigitals</li><li>OVAOS</li><li>THEGYM</li><li>Malfas Marketing</li><li>Creaesthix</li><li>Frederik Pahuus</li><li>Cameron England</li><li>The Digital Coffee Shop</li><li>Tech-shoppen.dk</li><li>Regas Media</li><li>Retainly</li><li>The Marketing Bureau</li><li>Converzion</li><li>SwiftTap</li></ul></div></div>
+  </div>
+
+  <section class="case">
+    <div class="col">
+      <img class="case__photo" src="/book/img/tjure.jpg" alt="Tjure Lohse, direktør i Retainly" width="720" height="900" loading="lazy" decoding="async">
+      <div class="case__text">
+        <h2>Tjure gik fra at være mellemmand til at få 3 timer ekstra <span class="em">om dagen</span>.</h2>
+        <p class="quote"><q>Førhen der var det hele meget manuelt. Jeg har i princippet gået fra at lave alting selv til bare at være mellemmand.</q></p>
+        <p class="body">Før gik hver godkendelse og hver rettelse fra kunderne gennem Tjure. I dag får kunderne en besked i Slack og godkender med et klik.</p>
+        <ul class="stats">
+          <li><b>10-14 timer</b> sparet om ugen per medarbejder</li>
+          <li><b>3-4 kunder</b> ekstra med de samme medarbejdere</li>
+          <li><b>336.000 kr.</b> sparet i lønomkostninger om året for hele teamet</li>
+        </ul>
+        <p class="quote"><q>Andreas har været rigtig god til at forklare det på en måde, at sådan en som mig også kan forstå det, som ikke sidder med AI til dagligt.</q></p>
+        <p class="who"><b>Tjure Lohse</b> · Direktør, Retainly</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>SKYT SYSTEMS ApS · Aarhus · CVR 45854981</p>
+</footer>
+
+<script src="/tilbud-beregner/beregner.js?v=20261118c" defer></script>
+</body>
+</html>
