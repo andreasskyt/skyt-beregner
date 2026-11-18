@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hvor meget tid og kapital spilder din virksomhed på manuelt arbejde? · SKYT SYSTEMS</title>
-<meta name="description" content="Svar på 3 spørgsmål og se, hvor mange timer jeres team får tilbage, når alle bruger AI på deres egne opgaver. Tager 1 minut.">
+<meta name="description" content="Svar på 2 spørgsmål og se, hvor mange timer jeres team får tilbage, når alle bruger AI på deres egne opgaver. Tager 1 minut.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#f6f4ef">
 <link rel="icon" href="/public/favicons/favicon.ico" sizes="any">
@@ -106,6 +106,7 @@
   input[aria-invalid="true"] { border-color: var(--err); }
   .err { font-size: 0.82rem; font-weight: 500; color: var(--err); }
   .err:empty { display: none; }
+  .step h2.center, .hint.center { text-align: center; }
   .trust { display: grid; gap: 0.8rem; margin-top: 0.9rem; font-size: 0.85rem; color: var(--ink-soft); text-align: center; }
   .trust[hidden] { display: none; }
   .trust__said { display: flex; gap: 0.7rem; align-items: center; text-align: left; padding-top: 0.9rem; border-top: 1px solid var(--line); }
@@ -257,11 +258,11 @@ fbq('track', 'PageView');
     <div class="intro" id="intro">
       <span class="kicker">For virksomheder med mellem 10-50 ansatte</span>
       <h1 class="h1-lines">Hvor meget tid og kapital<br> <span class="em">spilder din virksomhed</span><br> på manuelt arbejde?</h1>
-      <p class="lead">For hver dag I udskyder det, betaler I løn for timer brugt på gentaget arbejde, som en computer kunne lave.<br> <span style="white-space:nowrap">Svar på 3 spørgsmål</span>, og få et estimat på, hvor meget I spilder.</p>
+      <p class="lead">For hver dag I udskyder det, betaler I løn for timer brugt på gentaget arbejde, som en computer kunne lave.<br> <span style="white-space:nowrap">Svar på 2 spørgsmål</span>, og få et estimat på, hvor meget I spilder.</p>
     </div>
 
     <form class="card" id="calc" novalidate>
-      <div class="progress"><div class="progress__bar" role="progressbar" aria-label="Fremskridt" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" id="bar"><div class="progress__fill" id="fill"></div></div><span id="count">1 af 3</span></div>
+      <div class="progress"><div class="progress__bar" role="progressbar" aria-label="Fremskridt" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" id="bar"><div class="progress__fill" id="fill"></div></div><span id="count">1 af 2</span></div>
 
       <section class="step is-active" data-key="ansatte" data-type="single">
         <h2 id="q0">Hvor mange er I?</h2>
@@ -285,17 +286,8 @@ fbq('track', 'PageView');
         </div>
       </section>
 
-      <section class="step" data-key="ansaet" data-type="single">
-        <h2 id="q3">Er I ved at ansætte, fordi der er for meget at lave?</h2>
-        <div class="opts" role="radiogroup" aria-labelledby="q3">
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="nej">Nej</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="overvejer">Vi overvejer det</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="ja">Ja, vi søger nu</button>
-        </div>
-      </section>
-
       <section class="step" data-key="kontakt" data-type="form">
-        <h2 id="q4">Dit tal er regnet ud.</h2>
+        <h2 id="q4" class="center">Hvem skal vi sende analysen til?</h2>
         <div class="peek" id="peek">
           <div class="big"><span class="n peek__v" aria-hidden="true" id="p-big">ca. 115 timer</span><span class="u" id="p-big-l">om måneden I får tilbage, når hver person sparer mindst 2 timer om ugen</span><span class="u day peek__v" aria-hidden="true" id="p-day">Det svarer til ca. 480.000 kr. i løn om året</span></div>
           <ul class="nums">
@@ -304,16 +296,11 @@ fbq('track', 'PageView');
           </ul>
           <p class="peek__lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Udfyld herunder for at se jeres tal</p>
         </div>
-        <p class="hint" style="margin-top:0">Skriv hvor vi må sende det, så ser du det med det samme.</p>
+        <p class="hint center" style="margin-top:0">Du ser jeres tal med det samme.</p>
         <div class="fields">
           <label>Navn<input name="navn" autocomplete="name" autocapitalize="words" enterkeyhint="next" required aria-describedby="e-navn"><span class="err" id="e-navn" role="alert" data-for="navn"></span></label>
-          <label>Firma<input name="firma" autocomplete="organization" autocapitalize="words" enterkeyhint="next" required aria-describedby="e-firma"><span class="err" id="e-firma" role="alert" data-for="firma"></span></label>
-          <label>Mail<input name="mail" type="email" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" enterkeyhint="next" required aria-describedby="e-mail"><span class="err" id="e-mail" role="alert" data-for="mail"></span></label>
-          <label>
-            <span>Telefon <span class="opt-tag">(valgfrit)</span></span>
-            <span class="field-hint" id="h-tel">Skriv dit nummer, hvis du vil have en gratis gennemgang af tallet.</span>
-            <input name="telefon" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="go" placeholder="12 34 56 78…" aria-describedby="h-tel e-telefon"><span class="err" id="e-telefon" role="alert" data-for="telefon"></span>
-          </label>
+          <label>Telefon<input name="telefon" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="12 34 56 78…" required aria-describedby="e-telefon"><span class="err" id="e-telefon" role="alert" data-for="telefon"></span></label>
+          <label>Mail<input name="mail" type="email" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" enterkeyhint="go" required aria-describedby="e-mail"><span class="err" id="e-mail" role="alert" data-for="mail"></span></label>
         </div>
       </section>
 
@@ -322,7 +309,7 @@ fbq('track', 'PageView');
         <button type="button" class="btn" id="next" hidden>Næste</button>
       </div>
       <div class="trust" id="trust" hidden>
-        <p>Ingen spam. Vi ringer kun, hvis du skriver dit nummer.</p>
+        <p>Når du indsender formularen, behandler vi de oplysninger, du har indtastet, og vi kan kontakte dig for at tale om din interesse. Du kan altid afmelde dig igen.</p>
         <div class="trust__said">
           <img src="/book/img/tjure.jpg" alt="" width="42" height="42" loading="lazy" decoding="async">
           <div><q>Jeg er lidt skræmt over, hvor meget tid det sparer.</q><span>Tjure Lohse, direktør i Retainly</span></div>
@@ -354,7 +341,6 @@ fbq('track', 'PageView');
       </div>
       <div class="bridge">
         <p id="r-tjure">Tjure var mellemmand for alt. Før gik hver godkendelse og hver rettelse fra kunderne gennem ham. I dag får kunderne en besked i Slack og godkender med et klik.</p>
-        <p id="r-hire" hidden></p>
         <p>Det hedder AI-klar før 2027: dagen efter bruger hele teamet AI på deres egne opgaver.</p>
         <p class="scarce">Vi tager kun 15 virksomheder inden nytår. Fra januar til marts tager vi ingen workshops.</p>
       </div>
@@ -401,6 +387,6 @@ fbq('track', 'PageView');
   <p>SKYT SYSTEMS ApS · Aarhus · CVR 45854981</p>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261119a" defer></script>
+<script src="/beregner/beregner.js?v=20261119b" defer></script>
 </body>
 </html>

@@ -130,17 +130,15 @@
   function checkContact() {
     var c = {
       navn: form.elements.navn.value.trim(),
-      firma: form.elements.firma.value.trim(),
       mail: form.elements.mail.value.trim(),
       telefon: form.elements.telefon.value.replace(/[\s\-().]/g, '')
     };
     var bad = [];
     if (!setErr('navn', c.navn.length < 2 ? 'Skriv dit navn.' : '')) bad.push('navn');
-    if (!setErr('firma', c.firma.length < 2 ? 'Skriv navnet på firmaet.' : '')) bad.push('firma');
     if (!setErr('mail', /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(c.mail) ? '' : 'Tjek din mail.')) bad.push('mail');
     var dk = c.telefon.replace(/^(\+45|0045)/, '');
-    var telOk = !c.telefon || /^\d{8}$/.test(dk) || /^\+\d{8,15}$/.test(c.telefon);
-    if (!setErr('telefon', telOk ? '' : 'Skriv et nummer med 8 cifre, eller lad feltet stå tomt.')) bad.push('telefon');
+    var telOk = /^\d{8}$/.test(dk) || /^\+\d{8,15}$/.test(c.telefon);
+    if (!setErr('telefon', telOk ? '' : 'Skriv et nummer med 8 cifre.')) bad.push('telefon');
     if (bad.length) { form.elements[bad[0]].focus(); return null; }
     if (/^\d{8}$/.test(dk)) c.telefon = '+45' + dk;
     return c;
@@ -160,6 +158,7 @@
       estimate: est,
       contact: c,
       wants_call: !!c.telefon,
+      company_domain: (c.mail.split('@')[1] || '').toLowerCase(),
       fbp: cookie('_fbp'),
       fbc: cookie('_fbc')
     };
@@ -175,13 +174,8 @@
 
   function render(c, est) {
     var first = c.navn.split(/\s+/)[0], m = est.midpoints;
-    $('r-title').textContent = first + ', her er tallet for ' + c.firma + '.';
+    $('r-title').textContent = first + ', her er jeres tal.';
     fill('r', est);
-    var hire = $('r-hire'), fteTxt = num(Math.max(0.1, Math.round(est.fte * 10) / 10));
-    if (answers.ansaet === 'ja' || answers.ansaet === 'overvejer') {
-      hire.textContent = (answers.ansaet === 'ja' ? 'I søger allerede folk. ' : 'I overvejer at ansætte. ') + 'Den tid, I kan få tilbage, svarer til ca. ' + fteTxt + ' fuldtidsansatte. Måske skal jeres folk have timerne tilbage, før I ansætter.';
-      hire.hidden = false;
-    } else { hire.hidden = true; }
     $('r-note').textContent =
       'Tallet bygger på dine svar, og vi regner med midten af hvert interval. ' +
       'Gentagne opgaver: ' + num(m.staff) + ' personer gange ' + num(m.hours_day) + (m.hours_day === 1 ? ' time' : ' timer') + ' om dagen pr. medarbejder gange ca. ' + num(Math.round(WORKDAYS_PER_MONTH * 10) / 10) + ' arbejdsdage om måneden er ca. ' + num(Math.round(est.repetitive_month)) + ' timer. ' +
