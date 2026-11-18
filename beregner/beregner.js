@@ -43,7 +43,24 @@
   var QUESTIONS = steps.length - 1;
   var next = $('next'), back = $('back');
   var answers = {};
-  var current = 0, eventId = '';
+  var current = 0, eventId = 'lead_' + uuid(), submitted = false, lastPartial = '';
+
+  /* Save each contact field as it is typed, not only on submit, so a visitor who leaves after the mail is not lost. */
+  function partialContact() {
+    var mail = form.elements.mail.value.trim(), tel = form.elements.telefon.value.replace(/[\s\-().]/g, ''), navn = form.elements.navn.value.trim();
+    var mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail), telOk = /^(\+45|0045)?\d{8}$/.test(tel) || /^\+\d{8,15}$/.test(tel);
+    if (!mailOk && !telOk) return null;
+    return { mail: mailOk ? mail : '', telefon: telOk ? tel : '', navn: navn };
+  }
+  function savePartial(beacon) {
+    if (submitted) return;
+    var c = partialContact(); if (!c) return;
+    var key = JSON.stringify(c); if (key === lastPartial) return; lastPartial = key;
+    var body = { source: SOURCE, type: 'partial', event_id: eventId, saved_at: new Date().toISOString(), page: location.href, answers: answers, contact: c, company_domain: (c.mail.split('@')[1] || '').toLowerCase(), fbp: cookie('_fbp'), fbc: cookie('_fbc') };
+    TRACKED.forEach(function (k) { body[k] = attribution[k] || ''; });
+    if (beacon && WEBHOOK_URL && navigator.sendBeacon) { navigator.sendBeacon(WEBHOOK_URL, new Blob([JSON.stringify(body)], { type: 'application/json' })); return; }
+    post(body);
+  }
 
   var nf = new Intl.NumberFormat('da-DK', { maximumFractionDigits: 1 });
   function num(x) { return nf.format(x); }
@@ -148,7 +165,7 @@
     if (next.classList.contains('is-busy')) return;
     var c = checkContact(); if (!c) return;
     var est = estimate();
-    eventId = 'lead_' + uuid();
+    submitted = true;
     var payload = {
       source: SOURCE,
       event_id: eventId,
@@ -198,6 +215,16 @@
     window.BOOKING = { calLink: 'team/skyt-systems/intro-opkald', redirect: '/tak', containers: ['#cal'], theme: 'light', brand: '#2a3826', hideDetails: true };
     var s = document.createElement('script'); s.src = '/booking.js'; s.async = true; document.body.appendChild(s);
   }
+
+  var partialTimer;
+  ['mail', 'telefon', 'navn'].forEach(function (n) {
+    var el = form.elements[n];
+    el.addEventListener('input', function () { clearTimeout(partialTimer); partialTimer = setTimeout(function () { savePartial(false); }, 1500); });
+    el.addEventListener('change', function () { savePartial(false); });
+    el.addEventListener('blur', function () { savePartial(false); });
+  });
+  window.addEventListener('pagehide', function () { savePartial(true); });
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') savePartial(true); });
 
   show(0);
 })();

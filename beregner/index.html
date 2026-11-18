@@ -299,9 +299,9 @@ fbq('track', 'PageView');
         </div>
         <p class="hint center" style="margin-top:0">Du ser jeres tal med det samme.</p>
         <div class="fields">
-          <label>Navn<input name="navn" autocomplete="name" autocapitalize="words" enterkeyhint="next" required aria-describedby="e-navn"><span class="err" id="e-navn" role="alert" data-for="navn"></span></label>
+          <label>Mail<input name="mail" type="email" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" enterkeyhint="next" required aria-describedby="e-mail"><span class="err" id="e-mail" role="alert" data-for="mail"></span></label>
           <label>Telefon<input name="telefon" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="12 34 56 78…" required aria-describedby="e-telefon"><span class="err" id="e-telefon" role="alert" data-for="telefon"></span></label>
-          <label>Mail<input name="mail" type="email" autocomplete="email" inputmode="email" spellcheck="false" autocapitalize="off" enterkeyhint="go" required aria-describedby="e-mail"><span class="err" id="e-mail" role="alert" data-for="mail"></span></label>
+          <label>Navn<input name="navn" autocomplete="name" autocapitalize="words" enterkeyhint="go" required aria-describedby="e-navn"><span class="err" id="e-navn" role="alert" data-for="navn"></span></label>
         </div>
       </section>
 
@@ -391,6 +391,6 @@ fbq('track', 'PageView');
   <script>document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261119b" defer></script>
+<script src="/beregner/beregner.js?v=20261119c" defer></script>
 </body>
 </html>
