@@ -60,8 +60,6 @@
   function hoursText(x) { return 'ca. ' + num(roundTo(x, 5)) + ' timer'; }
   function daysText(x) { return num(Math.max(1, Math.round(x))); }
   function waitLine(e) {
-    if (answers.vente === 'dagligt') return 'Og alt det, der venter på én person, kommer oveni';
-    if (answers.vente === 'ugentligt') return 'Plus den tid, folk venter på svar';
     return 'Det svarer til ' + daysText(e.workdays_year) + ' arbejdsdage om året';
   }
 
@@ -175,7 +173,6 @@
     var first = c.navn.split(/\s+/)[0], m = est.midpoints;
     $('r-title').textContent = first + ', her er tallet for ' + c.firma + '.';
     fill('r', est);
-    $('r-tjure').hidden = answers.vente === 'sjaeldent';
     $('r-ai').hidden = answers.ai !== 'licenser';
     $('r-note').textContent =
       'Tallet bygger på dine svar, og vi regner med midten af hvert interval. ' +
