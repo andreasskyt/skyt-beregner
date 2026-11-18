@@ -179,7 +179,7 @@
     $('r-ai').hidden = answers.ai !== 'licenser';
     $('r-note').textContent =
       'Tallet bygger på dine svar, og vi regner med midten af hvert interval. ' +
-      'Gentagne opgaver: ' + num(m.staff) + ' personer gange ' + num(m.hours_day) + (m.hours_day === 1 ? ' time' : ' timer') + ' om dagen gange ca. ' + num(Math.round(WORKDAYS_PER_MONTH * 10) / 10) + ' arbejdsdage om måneden er ca. ' + num(Math.round(est.repetitive_month)) + ' timer. ' +
+      'Gentagne opgaver: ' + num(m.staff) + ' personer gange ' + num(m.hours_day) + (m.hours_day === 1 ? ' time' : ' timer') + ' om dagen pr. medarbejder gange ca. ' + num(Math.round(WORKDAYS_PER_MONTH * 10) / 10) + ' arbejdsdage om måneden er ca. ' + num(Math.round(est.repetitive_month)) + ' timer. ' +
       'Tid tilbage: ' + num(m.staff) + ' personer gange ' + num(m.per_week) + ' timer om ugen gange ' + WEEKS + ' arbejdsuger delt med 12 er ca. ' + num(Math.round(est.back_month)) + ' timer om måneden. ' +
       'De 2 timer om ugen pr. person er det mindste, vi lover efter workshoppen' + (m.per_week < PROMISE_WEEK ? ', men vi regner aldrig med mere end den tid, I selv bruger på gentagne opgaver' : '') + '. ' +
       'Arbejdsdage: de timer om året delt med 7,4 timer pr. arbejdsdag er ca. ' + daysText(est.workdays_year) + ' dage. Et skøn, ikke en garanti.';
