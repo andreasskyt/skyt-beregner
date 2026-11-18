@@ -1,6 +1,9 @@
-# SKYT SYSTEMS: beregner (landing page)
+# SKYT SYSTEMS: beregner landing pages
 
-Lead magnet for Danish companies that live on quotes and orders: "Hvor meget omsætning siger I nej til, fordi I ikke har tid til at regne på den?" Five one-tap questions, a contact form with the result blurred, then the result plus a Cal.com booking.
+Two lead magnets, same layout (one-tap questions, a contact form with the result blurred, then the result plus a Cal.com booking):
+
+- `/beregner/`: workshop calculator for the Tjure ads ("AI-klar før 2027"). "Hvor meget tid går tabt i jeres hverdag?" 4 questions: staff at a computer, hours a day on repetitive tasks, how often people wait on a key person, AI use today. Shows hours a month on repetitive tasks, hours a month back with our minimum promise of 2 hours a week per person, and the workdays a year that equals.
+- `/tilbud-beregner/`: quote calculator for companies that live on quotes and orders. "Hvor meget omsætning siger I nej til?" Shows hours on quotes, revenue declined per year (declined jobs × order value × win rate × 12) and extra quotes if each took half the time.
 
 Static HTML, CSS and vanilla JS. No build step.
 
@@ -10,18 +13,15 @@ Static HTML, CSS and vanilla JS. No build step.
 python3 -m http.server 8765
 ```
 
-Open http://localhost:8765/beregner/ (the booking section is at `#book`).
+Open http://localhost:8765/beregner/ or http://localhost:8765/tilbud-beregner/ (the booking section is at `#book`).
 
 ## Files
 
-- `beregner/index.html`: page, styles and copy
-- `beregner/beregner.js`: questions, math, blurred preview, form, result, tracking
+- `beregner/` and `tilbud-beregner/`: `index.html` (page, styles, copy) and `beregner.js` (questions, math, blurred preview, form, result, tracking)
 - `booking.js`: Cal.com embed and first-touch UTM storage (shared with skytsystems.dk)
-- `book/img/`, `public/favicons/`: images used by the page
+- `book/img/`, `public/favicons/`: images used by the pages
 
-## Math
-
-Only the visitor's own answers (bucket midpoints): hours on quotes per month = quotes × hours per quote; revenue declined per year = declined jobs × typical order value × win rate × 12. The one assumption is labelled on the page: how many more quotes per month if each took half the time.
+Every number uses only the visitor's answers (bucket midpoints); the workshop page adds our 2 hours a week promise, and the math is written out under "Sådan har vi regnet" on each result.
 
 ## Notes
 

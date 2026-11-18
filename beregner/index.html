@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hvor meget omsætning siger I nej til? · SKYT SYSTEMS</title>
-<meta name="description" content="Svar på 6 spørgsmål og se, hvor meget omsætning I siger nej til, fordi I ikke har tid til at regne tilbud. Tager 2 minutter.">
+<title>Hvor meget tid går tabt i jeres hverdag? · SKYT SYSTEMS</title>
+<meta name="description" content="Svar på 4 spørgsmål og se, hvor mange timer jeres team får tilbage, når alle bruger AI på deres egne opgaver. Tager 1 minut.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#f6f4ef">
 <link rel="icon" href="/public/favicons/favicon.ico" sizes="any">
@@ -246,13 +246,13 @@ fbq('track', 'PageView');
 <main>
   <div class="col">
     <div class="intro" id="intro">
-      <span class="kicker">For virksomheder, der lever af tilbud og ordrer · 6 spørgsmål</span>
-      <h1>Hvor meget omsætning <span class="em">siger I nej til</span>, fordi I ikke har tid til at regne på den?</h1>
-      <p class="lead">Svar med et klik på 6 spørgsmål, og se hvad det koster jer, og hvor mange flere tilbud jeres folk kunne nå.</p>
+      <span class="kicker">For ejerledede virksomheder · 4 spørgsmål</span>
+      <h1>Hvor meget tid <span class="em" style="white-space:nowrap">går tabt</span> i jeres hverdag?</h1>
+      <p class="lead">Se hvor mange timer jeres team får tilbage, når alle bruger AI på deres egne opgaver.</p>
     </div>
 
     <form class="card" id="calc" novalidate>
-      <div class="progress"><div class="progress__bar" role="progressbar" aria-label="Fremskridt" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1" id="bar"><div class="progress__fill" id="fill"></div></div><span id="count">1 af 6</span></div>
+      <div class="progress"><div class="progress__bar" role="progressbar" aria-label="Fremskridt" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1" id="bar"><div class="progress__fill" id="fill"></div></div><span id="count">1 af 4</span></div>
 
       <section class="step is-active" data-key="ansatte" data-type="single">
         <h2 id="q0">Hvor mange er I?</h2>
@@ -265,62 +265,42 @@ fbq('track', 'PageView');
         </div>
       </section>
 
-      <section class="step" data-key="tilbud" data-type="single">
-        <h2 id="q1">Hvor mange tilbud regner I på om måneden?</h2>
+      <section class="step" data-key="gentaget" data-type="single">
+        <h2 id="q1">Hvor meget af en typisk dag går med gentagne opgaver?</h2>
+        <p class="hint">Mails, kopier og sæt ind, rapporter, opfølgning.</p>
         <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q1">
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under10">Under 10</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="10-30">10 til 30</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="30-75">30 til 75</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over75">Over 75</button>
-        </div>
-      </section>
-
-      <section class="step" data-key="timer" data-type="single">
-        <h2 id="q2">Hvor lang tid tager et tilbud i snit?</h2>
-        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q2">
           <button type="button" class="opt" role="radio" aria-checked="false" data-value="under1">Under 1 time</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="1-3">1 til 3 timer</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="3-8">3 til 8 timer</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over8">Over 8 timer</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="1-2">1 til 2 timer</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="2-4">2 til 4 timer</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over4">Mere end 4 timer</button>
         </div>
       </section>
 
-      <section class="step" data-key="nej" data-type="single">
-        <h2 id="q3">Hvor mange opgaver eller udbud siger I nej til om måneden, fordi I ikke har tid?</h2>
-        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q3">
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="0">Ingen</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="1-2">1 til 2</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="3-5">3 til 5</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over5">Over 5</button>
+      <section class="step" data-key="vente" data-type="single">
+        <h2 id="q2">Hvor tit skal nogen vente på dig eller en nøgleperson for at komme videre?</h2>
+        <div class="opts" role="radiogroup" aria-labelledby="q2">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="sjaeldent">Sjældent</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="ugentligt">Et par gange om ugen</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="dagligt">Flere gange om dagen</button>
         </div>
       </section>
 
-      <section class="step" data-key="ordre" data-type="single">
-        <h2 id="q4">Hvad er en typisk ordre værd?</h2>
-        <div class="opts opts--2 opts--grid" role="radiogroup" aria-labelledby="q4">
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under25">Under 25.000 kr.</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="25-100">25.000 til 100.000 kr.</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="100-500">100.000 til 500.000 kr.</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over500">Over 500.000 kr.</button>
-        </div>
-      </section>
-
-      <section class="step" data-key="hitrate" data-type="single">
-        <h2 id="q5">Hvor mange af jeres tilbud vinder I?</h2>
-        <div class="opts" role="radiogroup" aria-labelledby="q5">
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="under20">Under 20%</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="20-40">20 til 40%</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="over40">Over 40%</button>
+      <section class="step" data-key="ai" data-type="single">
+        <h2 id="q3">Bruger I AI i dag?</h2>
+        <div class="opts" role="radiogroup" aria-labelledby="q3">
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="nej">Nej</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="selv">Nogle bruger det på egen hånd</button>
+          <button type="button" class="opt" role="radio" aria-checked="false" data-value="licenser">Vi betaler for licenser</button>
         </div>
       </section>
 
       <section class="step" data-key="kontakt" data-type="form">
-        <h2 id="q6">Dit tal er regnet ud.</h2>
+        <h2 id="q4">Dit tal er regnet ud.</h2>
         <div class="peek" id="peek">
-          <div class="big"><span class="n peek__v" aria-hidden="true" id="p-big">860.000 kr.</span><span class="u" id="p-big-l">i omsætning I siger nej til om året</span><span class="u day peek__v" aria-hidden="true" id="p-day">Det er ca. 4 opgaver om måneden, I ikke når at regne på</span></div>
+          <div class="big"><span class="n peek__v" aria-hidden="true" id="p-big">ca. 115 timer</span><span class="u" id="p-big-l">om måneden I får tilbage, når hver person sparer mindst 2 timer om ugen</span><span class="u day peek__v" aria-hidden="true" id="p-day">Plus den tid, folk venter på svar</span></div>
           <ul class="nums">
-            <li><b class="peek__v" aria-hidden="true" id="p-n1">ca. 40 timer</b><span id="p-n1-l">om måneden på tilbud</span></li>
-            <li><b class="peek__v" aria-hidden="true" id="p-n2">ca. 20</b><span>flere tilbud om måneden med de samme folk, hvis hvert tilbud tog halv tid</span></li>
+            <li><b class="peek__v" aria-hidden="true" id="p-n1">ca. 430 timer</b><span id="p-n1-l">om måneden på gentagne opgaver</span></li>
+            <li><b class="peek__v" aria-hidden="true" id="p-n2">186</b><span>arbejdsdage om året, det svarer til</span></li>
           </ul>
           <p class="peek__lock"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Udfyld herunder for at se jeres tal</p>
         </div>
@@ -358,32 +338,25 @@ fbq('track', 'PageView');
       <div class="big"><span class="n" id="r-big"></span><span class="u" id="r-big-l"></span><span class="u day" id="r-day"></span></div>
       <ul class="nums">
         <li><b id="r-n1"></b><span id="r-n1-l"></span></li>
-        <li><b id="r-n2"></b><span>flere tilbud om måneden med de samme folk, hvis hvert tilbud tog halv tid</span></li>
+        <li><b id="r-n2"></b><span>arbejdsdage om året, det svarer til</span></li>
       </ul>
       <div class="cta">
         <a class="btn" href="#book" id="to-book">Book en gratis gennemgang (15 min)</a>
-        <p>Vi gennemgår dit tal og ser på, hvor jeres tilbud kan gå hurtigere.</p>
+        <p>Vi gennemgår dit tal og ser på, hvor jeres team kan starte.</p>
       </div>
       <div class="top">
         <h3>Her ville vi starte hos jer</h3>
         <ol>
-          <li><div><b>AI læser forespørgslen</b><p>AI læser forespørgslen, udbuddet eller tegningen og trækker kravene ud.</p></div></li>
-          <li><div><b>AI laver første udkast</b><p>AI finder varenumre og priser i jeres egne lister og laver første udkast til tilbuddet.</p></div></li>
-          <li><div><b>Jeres folk tjekker og sender</b><p>Jeres folk tjekker, retter og sender. Et menneske har altid sidste ord.</p></div></li>
+          <li><div><b>Én dag hos jer</b><p>Vi kommer ud til jer og sidder med ved jeres computere.</p></div></li>
+          <li><div><b>En rigtig opgave før frokost</b><p>Inden frokost har hver deltager løst en rigtig opgave fra sit eget arbejde med AI.</p></div></li>
+          <li><div><b>Jeres egen AI-playbook</b><p>I får jeres egen AI-playbook, så ingen glemmer det, de lærte.</p></div></li>
         </ol>
       </div>
       <div class="bridge">
-        <p>Tallet er kun noget værd, hvis jeres folk faktisk regner tilbud hurtigere på mandag. Derfor kommer vi ud til jer én dag, og dagen efter bruger teamet AI på deres egne tilbud og ordrer. Målet er flere tilbud og flere kunder med de samme folk, ikke færre medarbejdere.</p>
+        <p id="r-tjure" hidden>Tjure var mellemmand for alt. Før gik hver godkendelse og hver rettelse fra kunderne gennem ham. I dag får kunderne en besked i Slack og godkender med et klik.</p>
+        <p id="r-ai" hidden>I betaler allerede for værktøjet. Tallet viser, hvad der går tabt, når det ikke bliver brugt.</p>
+        <p>Det hedder AI-klar før 2027: dagen efter bruger hele teamet AI på deres egne opgaver.</p>
         <p class="scarce">Vi tager kun 15 virksomheder inden nytår. Fra januar til marts tager vi ingen workshops.</p>
-      </div>
-      <div class="ai">
-        <h3 id="q-ai">Bruger I AI i dag?</h3>
-        <div class="opts" role="radiogroup" aria-labelledby="q-ai" id="ai-opts">
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="nej">Nej</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="selv">Nogle bruger ChatGPT selv</button>
-          <button type="button" class="opt" role="radio" aria-checked="false" data-value="betaler">Vi betaler for ChatGPT eller Copilot</button>
-        </div>
-        <p class="ai__reply" id="ai-reply" aria-live="polite"></p>
       </div>
       <div class="booking" id="book">
         <div class="booking__head">
@@ -428,6 +401,6 @@ fbq('track', 'PageView');
   <p>SKYT SYSTEMS ApS · Aarhus · CVR 45854981</p>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261118c" defer></script>
+<script src="/beregner/beregner.js?v=20261118w" defer></script>
 </body>
 </html>

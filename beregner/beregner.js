@@ -1,16 +1,16 @@
-/* Lost-revenue calculator for skytsystems.dk/beregner (companies that live on quotes and orders).
-   5 one-tap questions, a contact gate, then the result. Every number is built only from the visitor's own answers.
+/* Workshop calculator for skytsystems.dk/beregner (Tjure ads, "AI-klar før 2027").
+   4 one-tap questions, a contact gate, then the result. The numbers use only the visitor's answers
+   plus our workshop promise (at least 2 hours a week per person).
    Stores first-touch UTMs with booking.js's sessionStorage key, fires Meta Lead and POSTs the answers to WEBHOOK_URL. */
 (function () {
-  function nejText(n) { return n === 1.5 ? '1 til 2' : String(n); }
   var WEBHOOK_URL = '';       // n8n webhook, not created yet. Empty = log to console only.
+  var SOURCE = 'beregner-workshop';
 
-  /* bucket midpoints; every number on the result comes only from the visitor's answers */
-  var TILBUD = { 'under10': 5, '10-30': 20, '30-75': 50, 'over75': 100 };
-  var TIMER = { 'under1': 0.5, '1-3': 2, '3-8': 5, 'over8': 12 };
-  var NEJ = { '0': 0, '1-2': 1.5, '3-5': 4, 'over5': 7 };
-  var ORDRE = { 'under25': 15000, '25-100': 60000, '100-500': 250000, 'over500': 750000 };
-  var HITRATE = { 'under20': 0.15, '20-40': 0.30, 'over40': 0.50 };
+  /* bucket midpoints */
+  var STAFF = { 'under10': 5, '10-20': 15, '21-50': 35, 'over50': 60 };
+  var HOURS_DAY = { 'under1': 0.5, '1-2': 1.5, '2-4': 3, 'over4': 5 };
+  var PROMISE_WEEK = 2;                 // hours per person per week we promise after the workshop
+  var WEEKS = 46, WORKDAYS_PER_MONTH = 46 * 5 / 12, HOURS_PER_WORKDAY = 7.4;
 
   /* first-touch attribution, same key as booking.js */
   var TRACKED = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'ad_id', 'adset_id', 'campaign_id'];
@@ -47,35 +47,32 @@
   function num(x) { return nf.format(x); }
 
   function estimate() {
-    var t = TILBUD[answers.tilbud], h = TIMER[answers.timer], n = NEJ[answers.nej], o = ORDRE[answers.ordre], r = HITRATE[answers.hitrate];
-    var lost = n * o * r * 12;
+    var staff = STAFF[answers.ansatte], day = HOURS_DAY[answers.gentaget];
+    var perWeek = Math.min(PROMISE_WEEK, day * 5);
     return {
-      hours_month: t * h,
-      lost_year: lost > 0 ? Math.max(10000, Math.round(lost / 10000) * 10000) : 0,
-      extra_offers: t,
-      midpoints: { tilbud: t, timer: h, nej: n, ordre: o, hitrate: r }
+      repetitive_month: staff * day * WORKDAYS_PER_MONTH,
+      back_month: staff * perWeek * WEEKS / 12,
+      workdays_year: staff * perWeek * WEEKS / HOURS_PER_WORKDAY,
+      midpoints: { staff: staff, hours_day: day, per_week: perWeek }
     };
   }
-  function hoursText(e) { return 'ca. ' + num(Math.max(1, Math.round(e.hours_month))) + ' timer'; }
-  function krText(x) { return num(x) + ' kr.'; }
+  function roundTo(x, step) { return Math.max(step, Math.round(x / step) * step); }
+  function hoursText(x) { return 'ca. ' + num(roundTo(x, 5)) + ' timer'; }
+  function daysText(x) { return num(Math.max(1, Math.round(x))); }
+  function waitLine(e) {
+    if (answers.vente === 'dagligt') return 'Og alt det, der venter på én person, kommer oveni';
+    if (answers.vente === 'ugentligt') return 'Plus den tid, folk venter på svar';
+    return 'Det svarer til ' + daysText(e.workdays_year) + ' arbejdsdage om året';
+  }
 
   /* fills the teaser (p) and the result (r) with the same layout */
   function fill(px, e) {
-    var m = e.midpoints;
-    if (e.lost_year > 0) {
-      $(px + '-big').textContent = krText(e.lost_year);
-      $(px + '-big-l').textContent = 'i omsætning I siger nej til om året';
-      $(px + '-day').textContent = 'Det er ca. ' + nejText(m.nej) + ' opgaver om måneden, I ikke når at regne på';
-      $(px + '-n1').textContent = hoursText(e);
-      $(px + '-n1-l').textContent = 'om måneden på tilbud';
-    } else {
-      $(px + '-big').textContent = hoursText(e);
-      $(px + '-big-l').textContent = 'om måneden på tilbud';
-      $(px + '-day').textContent = 'Tid, jeres folk kunne bruge på flere kunder';
-      $(px + '-n1').textContent = krText(0);
-      $(px + '-n1-l').textContent = 'i omsætning I siger nej til om året';
-    }
-    $(px + '-n2').textContent = 'ca. ' + num(e.extra_offers);
+    $(px + '-big').textContent = hoursText(e.back_month);
+    $(px + '-big-l').textContent = 'om måneden I får tilbage, når hver person sparer mindst 2 timer om ugen';
+    $(px + '-day').textContent = waitLine(e);
+    $(px + '-n1').textContent = hoursText(e.repetitive_month);
+    $(px + '-n1-l').textContent = 'om måneden på gentagne opgaver';
+    $(px + '-n2').textContent = daysText(e.workdays_year);
   }
 
   function valid(i) {
@@ -153,7 +150,7 @@
     var est = estimate();
     eventId = 'lead_' + uuid();
     var payload = {
-      source: 'beregner',
+      source: SOURCE,
       event_id: eventId,
       submitted_at: new Date().toISOString(),
       page: location.href,
@@ -165,7 +162,7 @@
       fbc: cookie('_fbc')
     };
     TRACKED.forEach(function (k) { payload[k] = attribution[k] || ''; });
-    if (window.fbq) window.fbq('track', 'Lead', { content_name: 'beregner' }, { eventID: eventId });
+    if (window.fbq) window.fbq('track', 'Lead', { content_name: SOURCE }, { eventID: eventId });
     post(payload);
 
     next.classList.add('is-busy'); next.disabled = true; next.textContent = 'Beregner…';
@@ -178,11 +175,14 @@
     var first = c.navn.split(/\s+/)[0], m = est.midpoints;
     $('r-title').textContent = first + ', her er tallet for ' + c.firma + '.';
     fill('r', est);
+    $('r-tjure').hidden = answers.vente === 'sjaeldent';
+    $('r-ai').hidden = answers.ai !== 'licenser';
     $('r-note').textContent =
-      'Tallet bygger kun på dine svar. Vi regner med midten af hvert interval. ' +
-      'Timer på tilbud: ' + num(m.tilbud) + ' tilbud om måneden gange ' + num(m.timer) + (m.timer === 1 ? ' time' : ' timer') + ' er ca. ' + num(est.hours_month) + ' timer om måneden. ' +
-      'Omsætning I siger nej til: ' + nejText(m.nej) + ' opgaver om måneden gange ' + krText(m.ordre) + ' gange ' + Math.round(m.hitrate * 100) + ' procent, som I typisk vinder, gange 12 måneder er ca. ' + krText(est.lost_year) + ' om året. ' +
-      'Flere tilbud: tog hvert tilbud halv tid, kunne de samme folk regne på ' + num(est.extra_offers) + ' tilbud mere om måneden. Et skøn, ikke en garanti.';
+      'Tallet bygger på dine svar, og vi regner med midten af hvert interval. ' +
+      'Gentagne opgaver: ' + num(m.staff) + ' personer gange ' + num(m.hours_day) + (m.hours_day === 1 ? ' time' : ' timer') + ' om dagen gange ca. ' + num(Math.round(WORKDAYS_PER_MONTH * 10) / 10) + ' arbejdsdage om måneden er ca. ' + num(Math.round(est.repetitive_month)) + ' timer. ' +
+      'Tid tilbage: ' + num(m.staff) + ' personer gange ' + num(m.per_week) + ' timer om ugen gange ' + WEEKS + ' arbejdsuger delt med 12 er ca. ' + num(Math.round(est.back_month)) + ' timer om måneden. ' +
+      'De 2 timer om ugen pr. person er det mindste, vi lover efter workshoppen' + (m.per_week < PROMISE_WEEK ? ', men vi regner aldrig med mere end den tid, I selv bruger på gentagne opgaver' : '') + '. ' +
+      'Arbejdsdage: de timer om året delt med 7,4 timer pr. arbejdsdag er ca. ' + daysText(est.workdays_year) + ' dage. Et skøn, ikke en garanti.';
 
     form.style.display = 'none';
     $('intro').style.display = 'none';
@@ -199,17 +199,6 @@
     window.BOOKING = { calLink: 'team/skyt-systems/intro-opkald', redirect: '/tak', containers: ['#cal'], theme: 'light', brand: '#2a3826', hideDetails: true };
     var s = document.createElement('script'); s.src = '/booking.js'; s.async = true; document.body.appendChild(s);
   }
-
-  /* optional follow-up on the result: AI use today, sent as a second payload with the same event_id */
-  $('ai-opts').addEventListener('click', function (e) {
-    var o = e.target.closest('.opt'); if (!o) return;
-    this.querySelectorAll('.opt').forEach(function (b) { b.setAttribute('aria-checked', b === o ? 'true' : 'false'); });
-    var v = o.dataset.value;
-    $('ai-reply').textContent = v === 'betaler'
-      ? 'I betaler allerede for værktøjet. Spørgsmålet er, om det bliver brugt på jeres tilbud.'
-      : 'Tak. Det hjælper os med at forberede gennemgangen.';
-    post({ source: 'beregner', type: 'ai_followup', event_id: eventId, ai: v, submitted_at: new Date().toISOString() });
-  });
 
   show(0);
 })();
