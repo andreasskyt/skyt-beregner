@@ -190,6 +190,8 @@
   .stats li + li { border-left: 1px solid var(--line); padding-left: 1.1rem; }
   .stats b { display: block; font-size: 1.8rem; font-weight: 800; letter-spacing: -0.035em; color: var(--btn); line-height: 1.1; margin-bottom: 0.35rem; white-space: nowrap; }
   .who { font-size: 0.9rem; color: var(--ink-soft); }
+  .case__cta { margin-top: 1.4rem; justify-self: start; }
+  .nav[hidden] { display: none; }
   .who b { color: var(--ink); font-weight: 600; }
 
   footer .disclaimer { font-size: 0.72rem; line-height: 1.5; max-width: 40rem; margin: 0.6rem auto 0; opacity: 0.8; }
@@ -201,6 +203,8 @@
     .bar .col { height: 3.25rem; }
     .logo { font-size: 1rem; }
     main { padding: 0.4rem 0 0; }
+    main > .col:first-child { min-height: calc(100svh - 3.25rem - 0.4rem); display: flex; flex-direction: column; justify-content: flex-start; padding-bottom: 1rem; }
+    .case__cta { justify-self: center; }
     .intro { margin-bottom: 1rem; gap: 0.5rem; }
     .intro h1 { font-size: clamp(1.45rem, 7vw, 1.85rem); }
     .intro h1.h1-lines { font-size: 8.5vw; width: auto; justify-self: center; margin-left: 0; }   /* widest line ~10.6em fills the 1rem-padded column */
@@ -379,6 +383,7 @@ fbq('track', 'PageView');
         </ul>
         <p class="quote"><q>Andreas har været rigtig god til at forklare det på en måde, at sådan en som mig også kan forstå det, som ikke sidder med AI til dagligt.</q></p>
         <p class="who"><b>Tjure Lohse</b> · Direktør, Retainly</p>
+        <a class="btn case__cta" href="#calc" id="to-calc">Se hvor meget I spilder</a>
       </div>
     </div>
   </section>
@@ -391,6 +396,6 @@ fbq('track', 'PageView');
   <script>document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261119d" defer></script>
+<script src="/beregner/beregner.js?v=20261119e" defer></script>
 </body>
 </html>

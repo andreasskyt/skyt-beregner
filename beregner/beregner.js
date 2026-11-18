@@ -108,6 +108,7 @@
     $('count').textContent = type === 'form' ? 'Sidste trin' : (i + 1) + ' af ' + QUESTIONS;
     back.hidden = i === 0;
     next.hidden = type === 'single';
+    form.querySelector('.nav').hidden = back.hidden && next.hidden;
     next.textContent = type === 'form' ? 'Afslør tallet' : 'Næste';
     next.disabled = !valid(i);
     $('trust').hidden = type !== 'form';
@@ -225,6 +226,12 @@
   });
   window.addEventListener('pagehide', function () { savePartial(true); });
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') savePartial(true); });
+
+  $('to-calc').addEventListener('click', function (e) {
+    e.preventDefault();
+    var target = form.style.display === 'none' ? $('book') : form;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 
   show(0);
 })();
