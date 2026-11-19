@@ -205,7 +205,7 @@
     main { padding: 0.4rem 0 0; }
     main > .col:first-child { min-height: calc(100svh - 3.25rem - 0.4rem); display: flex; flex-direction: column; justify-content: flex-start; padding-bottom: 1rem; }
     .case__cta { justify-self: center; }
-    .intro { margin-bottom: 1rem; gap: 0.5rem; }
+    .intro { margin-bottom: calc(1rem + var(--sp-mid, 0px)); gap: calc(0.5rem + var(--sp-gap, 0px)); padding-top: var(--sp-top, 0px); }
     .intro h1 { font-size: clamp(1.45rem, 7vw, 1.85rem); }
     .intro h1.h1-lines { font-size: 8.5vw; width: auto; justify-self: center; margin-left: 0; }   /* widest line ~10.6em fills the 1rem-padded column */
     @media (max-width: 340px) { .intro h1.h1-lines { font-size: 8vw; } }
@@ -396,6 +396,6 @@ fbq('track', 'PageView');
   <script>document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261119e" defer></script>
+<script src="/beregner/beregner.js?v=20261119f" defer></script>
 </body>
 </html>

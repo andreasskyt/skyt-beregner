@@ -233,5 +233,23 @@
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
+  /* Mobile first view: spread the leftover height between eyebrow, headline, subheadline and form,
+     measured once on the first question so the layout doesn't jump while answering. */
+  function spreadFirstView() {
+    var intro = $('intro'), root = document.documentElement;
+    ['--sp-top', '--sp-gap', '--sp-mid'].forEach(function (v) { root.style.removeProperty(v); });
+    if (window.innerWidth > 700 || current !== 0) return;
+    var slack = window.innerHeight - form.getBoundingClientRect().bottom - 24;
+    if (slack <= 0) return;
+    slack = Math.min(slack, 260);
+    root.style.setProperty('--sp-top', Math.round(slack * 0.3) + 'px');
+    root.style.setProperty('--sp-gap', Math.round(slack * 0.4 / 3) + 'px');
+    root.style.setProperty('--sp-mid', Math.round(slack * 0.3) + 'px');
+  }
+
   show(0);
+  spreadFirstView();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(spreadFirstView);
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function () { if (window.innerWidth !== lastW) { lastW = window.innerWidth; spreadFirstView(); } });
 })();
