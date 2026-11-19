@@ -203,6 +203,8 @@
 
     form.style.display = 'none';
     $('intro').style.display = 'none';
+    $('nudge').style.display = 'none';
+    $('mini-proof').style.display = 'none';
     var r = $('result');
     r.classList.add('is-active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
