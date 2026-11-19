@@ -49,8 +49,9 @@
   function partialContact() {
     var mail = form.elements.mail.value.trim(), tel = form.elements.telefon.value.replace(/[\s\-().]/g, ''), navn = form.elements.navn.value.trim();
     var mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail), telOk = /^(\+45|0045)?\d{8}$/.test(tel) || /^\+\d{8,15}$/.test(tel);
-    if (!mailOk && !telOk) return null;
-    return { mail: mailOk ? mail : '', telefon: telOk ? tel : '', navn: navn };
+    var navnOk = navn.length >= 2;
+    if (!mailOk && !telOk && !navnOk) return null;
+    return { mail: mailOk ? mail : '', telefon: telOk ? tel : '', navn: navnOk ? navn : '' };
   }
   function savePartial(beacon) {
     if (submitted) return;
@@ -218,6 +219,7 @@
   function render(c, est) {
     var first = c.navn.split(/\s+/)[0], m = est.midpoints;
     $('r-title').textContent = first + ', her er jeres tal.';
+    var sent = $('r-sent'); sent.textContent = 'Vi sender også analysen til '; var em = document.createElement('b'); em.textContent = c.mail; sent.appendChild(em); sent.appendChild(document.createTextNode('.'));
     fill('r', est);
     $('r-note').textContent =
       'Tallet bygger på dine svar, og vi regner med midten af hvert interval. ' +

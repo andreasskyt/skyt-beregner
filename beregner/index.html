@@ -162,6 +162,8 @@
   .bridge .scarce { color: var(--ink); font-weight: 600; }
   .ai__reply { margin-top: 0.7rem; font-size: 0.95rem; color: var(--ink); font-weight: 500; }
   .ai__reply:empty { display: none; }
+  .sent { margin: 0; text-align: center; font-size: 0.92rem; color: var(--ink-soft); }
+  .sent b { color: var(--ink); }
   .booking { display: grid; gap: 1rem; scroll-margin-top: 0.75rem; }
   .booking__head { display: flex; gap: 0.8rem; align-items: center; }
   .booking__head img { width: 3rem; height: 3rem; border-radius: 50%; flex: none; }
@@ -347,35 +349,19 @@ fbq('track', 'PageView');
         <h2 id="r-title" tabindex="-1" style="margin-top:0.5rem"></h2>
       </div>
       <div class="big"><span class="n" id="r-big"></span><span class="u" id="r-big-l"></span><span class="u day" id="r-day"></span></div>
-      <ul class="nums">
-        <li><b id="r-n1"></b><span id="r-n1-l"></span></li>
-        <li><b id="r-n2"></b><span>fuldtidsansatte, det svarer til</span></li>
-      </ul>
-      <div class="cta">
-        <a class="btn" href="#book" id="to-book">Book en gratis gennemgang (15 min)</a>
-        <p>Vi gennemgår dit tal og ser på, hvor jeres team kan starte.</p>
-      </div>
-      <div class="top">
-        <h3>Her ville vi starte hos jer</h3>
-        <ol>
-          <li><div><b>Én dag hos jer</b><p>Vi kommer ud til jer og sidder med ved jeres computere.</p></div></li>
-          <li><div><b>En rigtig opgave før frokost</b><p>Inden frokost har hver deltager løst en rigtig opgave fra sit eget arbejde med AI.</p></div></li>
-          <li><div><b>Jeres egen AI-playbook</b><p>I får jeres egen AI-playbook, så ingen glemmer det, de lærte.</p></div></li>
-        </ol>
-      </div>
-      <div class="bridge">
-        <p id="r-tjure">Tjure var mellemmand for alt. Før gik hver godkendelse og hver rettelse fra kunderne gennem ham. I dag får kunderne en besked i Slack og godkender med et klik.</p>
-        <p>Det hedder AI-klar før 2027: dagen efter bruger hele teamet AI på deres egne opgaver.</p>
-        <p class="scarce">Vi tager kun 15 virksomheder inden nytår. Fra januar til marts tager vi ingen workshops.</p>
-      </div>
+      <p class="sent" id="r-sent"></p>
       <div class="booking" id="book">
         <div class="booking__head">
           <img src="/book/img/andreas.jpg" alt="Andreas Skyt" width="48" height="48" loading="lazy" decoding="async">
-          <div><h3>Book en gratis gennemgang</h3><p>15 minutter på telefonen. Vi ringer dig op.</p></div>
+          <div><h3>Book 15 minutter, hvor vi gennemgår jeres tal</h3><p>Gratis og uforpligtende. Vi ringer dig op på det tidspunkt, du vælger.</p></div>
         </div>
         <div class="cal" id="cal"></div>
         <p class="booking__fallback">Kan kalenderen ikke vises? <a href="https://cal.com/team/skyt-systems/intro-opkald">Book her i stedet</a>.</p>
       </div>
+      <ul class="nums">
+        <li><b id="r-n1"></b><span id="r-n1-l"></span></li>
+        <li><b id="r-n2"></b><span>fuldtidsansatte, det svarer til</span></li>
+      </ul>
       <details class="how">
         <summary>Sådan har vi regnet</summary>
         <p id="r-note"></p>
@@ -415,6 +401,6 @@ fbq('track', 'PageView');
   <script>document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261119k" defer></script>
+<script src="/beregner/beregner.js?v=20261119l" defer></script>
 </body>
 </html>
