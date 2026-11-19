@@ -71,6 +71,9 @@
   .mini-proof span { display: block; font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.15rem; }
   @media (prefers-reduced-motion: reduce) { #calc, .nudge svg { animation: none; } }
   .progress { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.4rem; font-size: 0.82rem; color: var(--ink-soft); }
+  .pback { flex: none; width: 2.75rem; height: 2.75rem; margin: -0.8rem 0 -0.8rem -0.6rem; border: 0; background: none; color: var(--ink); font: inherit; font-size: 1.15rem; cursor: pointer; border-radius: 50%; }
+  .pback[hidden] { display: none; }
+  .pback:focus-visible { outline: 2px solid var(--green); }
   .progress__bar { flex: 1; height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
   .progress__fill { height: 100%; width: 0; background: var(--btn); border-radius: 999px; transition: width 0.35s ease; }
   .step { display: none; }
@@ -285,7 +288,7 @@ fbq('track', 'PageView');
       <svg width="16" height="22" viewBox="0 0 22 30" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2v24"/><path d="M3 18l8 8 8-8"/></svg>
     </div>
     <form class="card" id="calc" novalidate>
-      <div class="progress"><div class="progress__bar" role="progressbar" aria-label="Fremskridt" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" id="bar"><div class="progress__fill" id="fill"></div></div><span id="count">1 af 2</span></div>
+      <div class="progress"><button type="button" class="pback" id="pback" aria-label="Tilbage" hidden>←</button><div class="progress__bar" role="progressbar" aria-label="Fremskridt" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" id="bar"><div class="progress__fill" id="fill"></div></div><span id="count">1 af 2</span></div>
 
       <section class="step is-active" data-key="ansatte" data-type="single">
         <h2 id="q0">Hvor mange er I?</h2>
@@ -412,6 +415,6 @@ fbq('track', 'PageView');
   <script>document.querySelectorAll('[data-year]').forEach(function (e) { e.textContent = new Date().getFullYear(); });</script>
 </footer>
 
-<script src="/beregner/beregner.js?v=20261119i" defer></script>
+<script src="/beregner/beregner.js?v=20261119k" defer></script>
 </body>
 </html>

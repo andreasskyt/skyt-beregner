@@ -99,16 +99,40 @@
     if (s.dataset.type === 'single') return !!answers[k];
     return true;
   }
+  /* Both question steps get the height of the taller one, so the card doesn't grow between question 1 and 2.
+     The contact step is free to grow. */
+  var questionHeight = 0;
+  function setNav(i) {
+    var single = steps[i].dataset.type === 'single';
+    $('pback').hidden = !single || i === 0;   /* questions: small back arrow in the progress row */
+    back.hidden = single || i === 0;          /* contact step: the normal Tilbage link */
+    next.hidden = single;
+    form.querySelector('.nav').hidden = back.hidden && next.hidden;
+  }
+  function measureQuestions() {
+    var keep = current, maxH = 0;
+    form.style.minHeight = '';
+    steps.forEach(function (s, i) {
+      if (s.dataset.type === 'form') return;
+      steps.forEach(function (x, j) { x.classList.toggle('is-active', j === i); });
+      setNav(i);
+      maxH = Math.max(maxH, form.offsetHeight);
+    });
+    steps.forEach(function (x, j) { x.classList.toggle('is-active', j === keep); });
+    setNav(keep);
+    questionHeight = maxH;
+    if (steps[keep].dataset.type !== 'form') form.style.minHeight = questionHeight + 'px';
+  }
+
   function show(i) {
     var s = steps[i], type = s.dataset.type;
+    form.style.minHeight = type === 'form' || !questionHeight ? '' : questionHeight + 'px';
     steps.forEach(function (x, j) { x.classList.toggle('is-active', j === i); });
     current = i;
     $('fill').style.width = ((i + 1) / steps.length * 100) + '%';
     $('bar').setAttribute('aria-valuenow', i + 1);
     $('count').textContent = type === 'form' ? 'Sidste trin' : (i + 1) + ' af ' + QUESTIONS;
-    back.hidden = i === 0;
-    next.hidden = type === 'single';
-    form.querySelector('.nav').hidden = back.hidden && next.hidden;
+    setNav(i);
     next.textContent = type === 'form' ? 'Afslør tallet' : 'Næste';
     next.disabled = !valid(i);
     $('trust').hidden = type !== 'form';
@@ -129,6 +153,7 @@
   });
 
   back.addEventListener('click', function () { if (current > 0) show(current - 1); });
+  $('pback').addEventListener('click', function () { if (current > 0) show(current - 1); });
   next.addEventListener('click', function () {
     if (steps[current].dataset.type === 'form') return submit();
     if (valid(current)) show(current + 1);
@@ -236,4 +261,8 @@
   });
 
   show(0);
+  measureQuestions();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureQuestions);
+  var measuredW = window.innerWidth;
+  window.addEventListener('resize', function () { if (window.innerWidth !== measuredW) { measuredW = window.innerWidth; measureQuestions(); } });
 })();
